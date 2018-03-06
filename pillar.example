@@ -34,19 +34,23 @@ postgres:
   # databases they can access. Records take one of these forms:
   #
   #acls:
-  #  - ['local', 'DATABASE',  'USER',  'METHOD']
-  #  - ['host', 'DATABASE',  'USER',  'ADDRESS', 'METHOD']
-  #  - ['hostssl', 'DATABASE', 'USER', 'ADDRESS', 'METHOD']
-  #  - ['hostnossl', 'DATABASE', 'USER', 'ADDRESS', 'METHOD']
+  #  group:
+  #    - ['local', 'DATABASE',  'USER',  'METHOD']
+  #    - ['host', 'DATABASE',  'USER',  'ADDRESS', 'METHOD']
+  #    - ['hostssl', 'DATABASE', 'USER', 'ADDRESS', 'METHOD']
+  #    - ['hostnossl', 'DATABASE', 'USER', 'ADDRESS', 'METHOD']
   #
   # The uppercase items must be replaced by actual values.
   # METHOD could be omitted, 'md5' will be appended by default.
   #
-  # If ``acls`` item value is empty ('', [], null), then the contents of
+  # If ``acls`` item value is empty ('', {}, [], null), then the contents of
   # ``pg_hba.conf`` file will not be touched at all.
   acls:
-    - ['local', 'db1', 'localUser']
-    - ['host', 'db2', 'remoteUser', '192.168.33.0/24']
+    db1:
+      - ['local', 'db1', 'localUser']
+      - ['host', 'db1', 'localUser', '127.0.0.1/32']
+    db2:
+      - ['host', 'db2', 'remoteUser', '192.168.33.0/24']
 
   # Backup extension for configuration files, defaults to ``.bak``.
   # Set ``False`` to stop creation of backups when config files change.
