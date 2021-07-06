@@ -98,4 +98,10 @@
 {{ opensuse_codename('openSUSE Leap 15.3', '13') }}
 {{ opensuse_codename('openSUSE Leap 15.2', '13') }}
 
-# vim: ft=sls
+## Amazon
+Amazon Linux 2:
+  pkgs_deps:
+    - libicu
+    - systemd-sysv
+  pkg_repo:
+    baseurl: 'https://download.postgresql.org/pub/repos/yum/{{ repo.version }}/redhat/rhel-7-$basearch'
