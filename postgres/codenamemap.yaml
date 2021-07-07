@@ -54,6 +54,18 @@
 
 {% endmacro %}
 
+{% macro opensuse_codename(name, version) %}
+  {# use upstream version if configured #}
+  {% if repo.use_upstream_repo == true %}
+    {% set version = repo.version %}
+  {% endif %}
+{{ codename|default(name, true) }}:
+  pkg_repo:
+    {#- Use `15.2` for both `15.2` and `15.3` #}
+    baseurl: 'https://download.postgresql.org/pub/repos/zypp/{{ version }}/suse/sles-15.2-$basearch'
+    key_url: 'https://download.postgresql.org/pub/repos/zypp/{{ version }}/suse/sles-15.2-$basearch/repodata/repomd.xml.key'
+{% endmacro %}
+
 ## Debian GNU/Linux (the second parameter refers to the postgresql package version, not the distro)
 # http://apt.postgresql.org/pub/repos/apt/dists/
 # https://packages.debian.org/search?keywords=postgresql&searchon=names
@@ -76,10 +88,20 @@
 {{ debian_codename('focal', '12') }}
 
 ## Fedora
-# http://apt.postgresql.org/pub/repos/yum/reporpms/
+# https://download.postgresql.org/pub/repos/yum/13/fedora/
 # https://apps.fedoraproject.org/packages/postgresql
-# `oscodename` grain has long distro name
-{{ fedora_codename('Fedora-31', '11', 'Fedora 31 (Thirty One)') }}
-{{ fedora_codename('Fedora-30', '11', 'Fedora 30 (Thirty)') }}
+{{ fedora_codename('Fedora-34', '13') }}
+{{ fedora_codename('Fedora-33', '13') }}
 
-# vim: ft=sls
+## openSUSE
+# https://download.postgresql.org/pub/repos/zypp/13/suse/
+{{ opensuse_codename('openSUSE Leap 15.3', '13') }}
+{{ opensuse_codename('openSUSE Leap 15.2', '13') }}
+
+## Amazon
+Amazon Linux 2:
+  pkgs_deps:
+    - libicu
+    - systemd-sysv
+  pkg_repo:
+    baseurl: 'https://download.postgresql.org/pub/repos/yum/{{ repo.version }}/redhat/rhel-7-$basearch'
