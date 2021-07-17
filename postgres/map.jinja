@@ -1,7 +1,7 @@
-{% import_yaml "postgres/defaults.yaml" as defaults %}
-{% import_yaml "postgres/osfamilymap.yaml" as osfamilymap %}
-{% import_yaml "postgres/osmap.yaml" as osmap %}
-{% import_yaml "postgres/codenamemap.yaml" as oscodenamemap %}
+{% import_yaml "postgres/defaults.yaml" as defaults with context %}
+{% import_yaml "postgres/osfamilymap.yaml" as osfamilymap with context %}
+{% import_yaml "postgres/osmap.yaml" as osmap with context %}
+{% import_yaml "postgres/codenamemap.yaml" as oscodenamemap with context %}
 
 {% set postgres = salt['grains.filter_by'](
     defaults,
